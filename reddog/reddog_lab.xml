@@ -5,25 +5,28 @@
   <default>
     <default class="reddog">
       <geom friction="0.4" margin="0.001" condim="1"/>
-      <joint axis="0 1 0" damping="0.1" armature="0.01" frictionloss="0.2"/>
-      <motor ctrlrange="-12 12"/>
+      <joint damping="0.1" armature="0.01" frictionloss="0.2"/>
+      <motor ctrlrange="-3 3"/>
       <default class="hip">
         <joint axis="1 0 0" range="-1.0472 1.0472"/>
-        <motor ctrlrange="-12 12"/>
+        <motor ctrlrange="-3 3"/>
       </default>
       <default class="thigh">
         <joint axis="0 1 0" range="-1.57 1.57"/>
-        <motor ctrlrange="-12 12"/>
+        <motor ctrlrange="-3 3"/>
       </default>
       <default class="calf">
         <joint axis="0 1 0" range="-2.7227 2.7227"/>
-        <motor ctrlrange="-12 12"/>
+        <motor ctrlrange="-3 3"/>
       </default>
       <default class="visual">
-        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="2" 
+          rgba="0.752941 0.752941 0.752941 1" 
+          density="0"
+        />
       </default>
       <default class="collision">
-        <geom group="3"/>
+        <geom group="3" type="mesh" />
         <default class="foot">
           <geom size="0.022" pos="-0.002 0 -0.213" priority="1" condim="6"
             friction="0.4 0.02 0.01"/>
@@ -58,86 +61,86 @@
         mass="2.19028"
         diaginertia="0.006223 0.019491 0.023871" />
       <freejoint />
+      <geom mesh="base" class="visual" />
+      <!-- <geom mesh="base" class="collision" /> -->
       <site name="imu" pos="0 0 0" />
-      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="base"/>
-      <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="base"/>
       <body name="FL_hip" pos="0.128 0.055 0">
         <inertial pos="0.037499 0.013932 -1e-06" quat="0.561859 0.561859 0.429319 0.429319" mass="0.32473" diaginertia="0.000141362 0.00013 0.000121638"/>
         <joint name="FL_hip_joint" class="hip"/>
-        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FL_hip"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FL_hip"/>
+        <geom mesh="FL_hip" class="visual" />
+        <!-- <geom mesh="FL_hip" class="collision" /> -->
         <body name="FL_thigh" pos="0.0385 0.0375 0">
           <inertial pos="-8.5e-05 0.025358 -0.120119" quat="0.718549 -0.0701853 0.0648139 0.688884" mass="0.3617" diaginertia="0.000481623 0.000462971 0.000133406"/>
           <joint name="FL_thigh_joint" class="thigh"/>
-          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FL_thigh"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FL_thigh"/>
+          <geom mesh="FL_thigh" class="visual"/>
+          <!-- <geom mesh="FL_thigh" class="collision"/> -->
           <body name="FL_calf" pos="0 0.0409852 -0.13">
             <inertial pos="-7.90138e-05 0.00964509 -0.0606265" quat="0.999999 0.00115707 -0.000487187 -5.63711e-07" mass="0.04723" diaginertia="0.000116851 0.000116851 5.16667e-05"/>
             <joint name="FL_calf_joint" class="calf"/>
-            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FL_calf"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FL_calf"/>
-            <geom pos="0 0 -0.13" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FL_foot"/>
-            <geom size="0.022" pos="-0.002 0 -0.13" rgba="0.752941 0.752941 0.752941 1"/>
+            <geom mesh="FL_calf" class="visual" />
+            <!-- <geom mesh="FL_calf" class="collision" /> -->
+            <geom mesh="FL_foot" class="visual" pos="0 0 -0.13" quat="1 0 0 0" />
+            <geom size="0.022" pos="-0.002 0 -0.13" type="sphere"  class="collision" />
           </body>
         </body>
       </body>
       <body name="FR_hip" pos="0.128 -0.055 0">
         <inertial pos="0.037499 -0.013932 -1e-06" quat="0.429319 0.429319 0.561859 0.561859" mass="0.32473" diaginertia="0.000141362 0.00013 0.000121638"/>
         <joint name="FR_hip_joint" class="hip"/>
-        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FR_hip"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FR_hip"/>
+        <geom mesh="FR_hip" class="visual" />
+        <!-- <geom mesh="FR_hip" class="collision" /> -->
         <body name="FR_thigh" pos="0.0385 -0.0375 0">
           <inertial pos="-8.2e-05 -0.027481 -0.125699" quat="0.684977 0.0628091 -0.0672458 0.722731" mass="0.32473" diaginertia="0.000272272 0.000253947 0.000116781"/>
           <joint name="FR_thigh_joint" class="thigh"/>
-          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FR_thigh"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FR_thigh"/>
+          <geom mesh="FR_thigh" class="visual" />
+          <!-- <geom mesh="FR_thigh" class="collision" /> -->
           <body name="FR_calf" pos="0 -0.0409852 -0.13">
             <inertial pos="-7.91574e-05 -0.00964397 -0.0604783" quat="0.707038 -0.00588228 0.00552686 0.707129" mass="0.04759" diaginertia="0.000142355 0.000135321 8.96566e-06"/>
             <joint name="FR_calf_joint" class="calf"/>
-            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FR_calf"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="FR_calf"/>
-            <geom pos="0 0 -0.13" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="FR_foot"/>
-            <geom size="0.022" pos="-0.002 0 -0.13" rgba="0.752941 0.752941 0.752941 1"/>
+            <geom mesh="FR_calf" class="visual" />
+            <!-- <geom mesh="FR_calf" class="collision" /> -->
+            <geom mesh="FR_foot" class="visual" pos="0 0 -0.13" quat="1 0 0 0" />
+            <geom size="0.022" pos="-0.002 0 -0.13" type="sphere"  class="collision" />
           </body>
         </body>
       </body>
       <body name="RL_hip" pos="-0.128 0.055 0">
         <inertial pos="-0.037499 0.013932 1e-06" quat="0.429319 0.429319 0.561859 0.561859" mass="0.32473" diaginertia="0.000141362 0.00013 0.000121638"/>
         <joint name="RL_hip_joint" class="hip"/>
-        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RL_hip"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RL_hip"/>
+        <geom mesh="RL_hip" class="visual" />
+        <!-- <geom mesh="RL_hip" class="collision" /> -->
         <body name="RL_thigh" pos="-0.0385 0.0375 0">
           <inertial pos="-8.5e-05 0.025358 -0.120119" quat="0.718549 -0.0701853 0.0648139 0.688884" mass="0.3617" diaginertia="0.000481623 0.000462971 0.000133406"/>
           <joint name="RL_thigh_joint" class="thigh"/>
-          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RL_thigh"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RL_thigh"/>
+          <geom mesh="RL_thigh" class="visual" />
+          <!-- <geom mesh="RL_thigh" class="collision" />   -->
           <body name="RL_calf" pos="0 0.0409852 -0.13">
             <inertial pos="-7.91574e-05 0.00964475 -0.0604791" quat="0.707129 0.005525 -0.00588042 0.707038" mass="0.04759" diaginertia="0.000142354 0.000135319 8.96568e-06"/>
             <joint name="RL_calf_joint" class="calf"/>
-            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RL_calf"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RL_calf"/>
-            <geom pos="0 0 -0.13" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RL_foot"/>
-            <geom size="0.022" pos="-0.002 0 -0.13" rgba="0.752941 0.752941 0.752941 1"/>
+            <geom mesh="RL_calf" class="visual" />
+            <!-- <geom mesh="RL_calf" class="collision" />   -->
+            <geom mesh="RL_foot" class="visual" pos="0 0 -0.13" quat="1 0 0 0" />
+            <geom size="0.022" pos="-0.002 0 -0.13" type="sphere"  class="collision" />
           </body>
         </body>
       </body>
       <body name="RR_hip" pos="-0.128 -0.055 0">
         <inertial pos="-0.037499 -0.013932 1e-06" quat="0.561859 0.561859 0.429319 0.429319" mass="0.32473" diaginertia="0.000141362 0.00013 0.000121638"/>
         <joint name="RR_hip_joint" class="hip"/>
-        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RR_hip"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RR_hip"/>
+        <geom mesh="RR_hip" class="visual" />
+        <!-- <geom mesh="RR_hip" class="collision" />   -->
         <body name="RR_thigh" pos="-0.0385 -0.0375 0">
           <inertial pos="-8.5e-05 -0.025358 -0.12012" quat="0.688599 0.0638593 -0.0692581 0.718997" mass="0.3617" diaginertia="0.000481253 0.00046297 0.000133777"/>
           <joint name="RR_thigh_joint" class="thigh"/>
-          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RR_thigh"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RR_thigh"/>
+          <geom mesh="RR_thigh" class="visual" />
+          <!-- <geom mesh="RR_thigh" class="collision" />  -->
           <body name="RR_calf" pos="0 -0.0409852 -0.13">
             <inertial pos="-7.91574e-05 -0.00964397 -0.0604783" quat="0.707038 -0.00588228 0.00552686 0.707129" mass="0.04759" diaginertia="0.000142355 0.000135321 8.96566e-06"/>
             <joint name="RR_calf_joint" class="calf"/>
-            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RR_calf"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="RR_calf"/>
-            <geom pos="0 0 -0.13" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="RR_foot"/>
-            <geom size="0.022" pos="-0.002 0 -0.13" rgba="0.752941 0.752941 0.752941 1"/>
+            <geom mesh="RR_calf" class="visual" />
+            <!-- <geom mesh="RR_calf" class="collision" />  -->
+            <geom mesh="RR_foot" class="visual" pos="0 0 -0.13" quat="1 0 0 0" />
+            <geom size="0.022" pos="-0.002 0 -0.13" type="sphere"  class="collision" />
           </body>
         </body>
       </body>
@@ -216,5 +219,17 @@
     <framelinvel name="frame_vel" objtype="site" objname="imu" />
     <frameangvel name="frame_ang_vel" objtype="site" objname="imu" />
   </sensor>
+
+  <!-- <keyframe> -->
+    <!-- <key name="standing_pose" qpos="1.0 0 -1.57 
+                                    -1.0 0 -1.57 
+                                    1.0 0 1.57 
+                                    -1.0 0 1.57 "/> -->
+    
+    <!-- <key name="standing_pose" qpos="0 0 0 
+                                    0 0 0
+                                    0 0 0
+                                    0 0 0"/> -->
+  <!-- </keyframe> -->
 
 </mujoco>

@@ -29,6 +29,17 @@
     cd reddog
     python mujoco_rl_pos.py config/reddog.yaml
     ```
+    for IsaacLab version
+    ```bash
+    conda activate rlmujoco
+    cd reddog
+    python mujoco_rl_pos.py config/reddog_lab.yaml
+    ```
     All supported two version of biped wheel robot.
-
+3. Simulate animation with joint position directly:
+    ```bash
+    conda activate rlmujoco
+    cd reddog
+    python play_animation_direct.py config/reddog_lab.yaml
+    ```
 
