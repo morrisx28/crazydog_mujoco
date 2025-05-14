@@ -1,0 +1,33 @@
+# 
+policy_path:  "pre_train/isaaclab/go2/2025-05-11_11-57-25/exported/policy.pt"
+xml_path: "go2/scene.xml"
+
+# Total simulation time
+simulation_duration: 60.0
+# Simulation time step
+simulation_dt: 0.005
+# Controller update frequency (meets the requirement of simulation_dt * controll_decimation=0.02; 50Hz)
+control_decimation: 4
+
+kps: [25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25]
+kds: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+
+default_angles: [0.1, -0.1, 0.1, -0.1, 0.8, 0.8, 1.0, 1.0, -1.5, -1.5, -1.5, -1.5]  # for rl model
+initial_pos: [0.1, -0.1, 0.1, -0.1, 0.8, 0.8, 1.0, 1.0, -1.5, -1.5, -1.5, -1.5]  # for intial pose
+
+
+lin_vel_scale: 1.0
+ang_vel_scale: 1.0
+dof_pos_scale: 1.0
+dof_vel_scale: 1.0
+action_scale: 0.2
+cmd_scale: [1.0, 1.0, 1.0]
+num_actions: 12
+num_obs: 45
+
+lin_vel_activation: False
+animation: False  # change num_obs to 49 if True
+max_step: 205
+loop_start: 113
+
+cmd_init: [1.0, 0.0, 0.0]
