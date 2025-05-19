@@ -1,5 +1,5 @@
 # 
-policy_path:  "pre_train/isaaclab/go2/2025-05-11_11-57-25/exported/policy.pt"
+policy_path:  "pre_train/lab/2025-05-11_11-57-25/exported/policy.pt"
 xml_path: "go2/scene.xml"
 
 # Total simulation time
