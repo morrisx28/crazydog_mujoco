@@ -143,20 +143,20 @@ class Controller:
         self.lowstate_subscriber.Init(self.LowStateMessageHandler, 10)
 
 
-        self.sc = SportClient()  
-        self.sc.SetTimeout(5.0)
-        self.sc.Init()
+        # self.sc = SportClient()  
+        # self.sc.SetTimeout(5.0)
+        # self.sc.Init()
 
-        self.msc = MotionSwitcherClient()
-        self.msc.SetTimeout(5.0)
-        self.msc.Init()
+        # self.msc = MotionSwitcherClient()
+        # self.msc.SetTimeout(5.0)
+        # self.msc.Init()
 
-        status, result = self.msc.CheckMode()
-        while result['name']:
-            self.sc.StandDown()
-            self.msc.ReleaseMode()
-            status, result = self.msc.CheckMode()
-            time.sleep(1)
+        # status, result = self.msc.CheckMode()
+        # while result['name']:
+        #     self.sc.StandDown()
+        #     self.msc.ReleaseMode()
+        #     status, result = self.msc.CheckMode()
+        #     time.sleep(1)
         print("Initial Sucess !!!")
 
     def get_gravity_orientation(self, quaternion):
@@ -172,12 +172,6 @@ class Controller:
         gravity_orientation[2] = 1 - 2 * (qw * qw + qz * qz)
 
         return gravity_orientation
-
-    def get_linear_vel(self, lin_acc):
-        lin_acc[2] - 9.8
-        self.lin_vel += lin_acc
-
-        return self.lin_vel
 
     def Start(self):
         # self.lowCmdWriteThreadPtr = RecurrentThread(

@@ -1,0 +1,9 @@
+name: rlmujoco
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch=2.4.0
+  - pygame

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="Biped_wheel">
+    <compiler angle="radian" meshdir="meshes" autolimits="true" />
+    <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast" />
+
+    <visual>
+        <!-- quality -->
+        <quality shadowsize="16384" numslices="28" offsamples="4" />
+        <headlight diffuse="1 1 1" specular="0.5 0.5 0.5" active="1" />
+    </visual>
+
+    <asset>
+        <texture type="skybox" file="./desert.png"
+            gridsize="3 4" gridlayout=".U..LFRB.D.." />
+
+        <texture name="plane" type="2d" builtin="checker" rgb1=".1 .1 .1" rgb2=".9 .9 .9"
+            width="512" height="512" mark="cross" markrgb=".8 .8 .8" />
+        <material name="plane" reflectance="0.3" texture="plane" texrepeat="1 1" texuniform="true" />
+        <!-- Absolute path-->
+        <hfield name="terrain" file="/home/csl/mujoco_rl/crazydog_mujoco/quick_bipedal_urdf/xml/genesis/agent_eval_gym.png" size="10.5 10.5 .4 0.1" />
+    </asset>
+    <!-- Absolute path-->
+    <include file="quick_biped_wheel.xml"/>
+
+    <worldbody>
+        <geom name="floor" pos="0 0 0" size="0 0 .25" type="plane" material="plane"
+            condim="3" />
+        <geom type="hfield" hfield="terrain" pos="11 -11 0" size="10.5 10.5 .4" />
+        <light directional="true" ambient=".3 .3 .3" pos="30 30 30" dir="0 -0.5 -1"
+            diffuse="0.5 0.5 0.5" specular="0.5 0.5 0.5" />
+       
+    </worldbody>
+</mujoco>

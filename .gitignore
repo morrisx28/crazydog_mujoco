@@ -3,3 +3,15 @@ reddog/simulation_plots/calf_joints_action_vs_pos.png
 reddog/simulation_plots/hip_joints_action_vs_pos.png
 reddog/simulation_plots/simulation_summary.png
 reddog/simulation_plots/thigh_joints_action_vs_pos.png
+deploy_real/data/state_estimation_log.csv
+crazydog_urdf/urdf/crazydog_urdf.csv
+quick_bipedal_urdf/__pycache__/datalogger.cpython-38.pyc
+quick_bipedal_urdf/__pycache__/datalogger.cpython-39.pyc
+quick_bipedal_urdf/__pycache__/datalogger.cpython-311.pyc
+quick_bipedal_urdf/__pycache__/gamepad.cpython-311.pyc
+deploy_real/__pycache__/estimation_utils.cpython-38.pyc
+deploy_real/__pycache__/unitree_legged_const.cpython-38.pyc
+reddog/simulation_plots/calf_joints_action_vs_pos.png
+reddog/simulation_plots/hip_joints_action_vs_pos.png
+reddog/simulation_plots/simulation_summary.png
+reddog/simulation_plots/thigh_joints_action_vs_pos.png

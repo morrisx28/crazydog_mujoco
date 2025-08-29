@@ -145,13 +145,13 @@
         <jointvel name="L_wheel_vel" joint="L_calf2wheel" noise="0.0"/>
 
         <jointactuatorfrc name="R_hip_torque" joint="R_hip2thigh" noise="0.01" />
-        <jointactuatorfrc name="F_hip_torque" joint="L_hip2thigh" noise="0.01" />
+        <jointactuatorfrc name="L_hip_torque" joint="L_hip2thigh" noise="0.01" />
 
         <jointactuatorfrc name="R_thigh_torque" joint="R_thigh2calf" noise="0.01" />
-        <jointactuatorfrc name="F_thigh_torque" joint="L_thigh2calf" noise="0.01" />
+        <jointactuatorfrc name="L_thigh_torque" joint="L_thigh2calf" noise="0.01" />
 
         <jointactuatorfrc name="R_wheel_torque" joint="R_calf2wheel" />
-        <jointactuatorfrc name="F_wheel_torque" joint="L_calf2wheel" />
+        <jointactuatorfrc name="L_wheel_torque" joint="L_calf2wheel" />
 
         <framequat name="imu_quat" objtype="site" objname="imu" noise="0.0"/>
         <gyro name="imu_gyro" site="imu" noise="0.0"/>
