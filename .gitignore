@@ -15,3 +15,4 @@ reddog/simulation_plots/calf_joints_action_vs_pos.png
 reddog/simulation_plots/hip_joints_action_vs_pos.png
 reddog/simulation_plots/simulation_summary.png
 reddog/simulation_plots/thigh_joints_action_vs_pos.png
+deploy_real/compal_amr/__pycache__/gamepad.cpython-310.pyc
