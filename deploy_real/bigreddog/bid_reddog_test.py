@@ -8,6 +8,7 @@ import yaml
 import argparse
 import matplotlib.pyplot as plt
 import csv
+import pathlib
 
 from unitree_sdk2py.core.channel import ChannelPublisher, ChannelFactoryInitialize
 from unitree_sdk2py.core.channel import ChannelSubscriber, ChannelFactoryInitialize
@@ -92,6 +93,19 @@ class Controller:
         self.obs = np.zeros(num_obs, dtype=np.float32)
         # self.obs_tensor_buf = torch.zeros((1, self.one_step_obs_size * self.obs_buffer_size))
         self.obs_tensor_buf = torch.zeros((1, self.one_step_obs_size * self.obs_buffer_size))
+
+        # Chirp data collection
+        self.min_freq = 0.1   
+        self.max_freq = 10.0  
+        self.duration = 20.0  
+        self.chirp_amplitude = 1.0
+        self.chirp_counter = 0
+
+        self.log_time = []
+        self.log_dof_pos = []
+        self.log_des_dof_pos = []
+        
+        self.generate_chirp_profile()
 
         self.crc = CRC()
 
@@ -236,7 +250,80 @@ class Controller:
         action = self.policy(self.obs_tensor_buf).detach().numpy().squeeze()
 
         return action
+    
+    ## Chirp data collection ##
+    def generate_chirp_profile(self):
+        sample_rate = 1.0 / self.dt
+        num_steps = int(self.duration * sample_rate)
+        t = np.linspace(0, self.duration, num_steps)
+        f0 = self.min_freq; f1 = self.max_freq
+        phase = 2 * np.pi * (f0 * t + ((f1 - f0) / (2 * self.duration)) * t ** 2)
+        chirp_signal = np.sin(phase)
 
+        self.chirp_traj = np.zeros((num_steps, 12), dtype=np.float32)
+        scales = np.array([0.25, 0.5, 0.75] * 4) * self.chirp_amplitude 
+        directions = np.array([1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0])
+
+        for i in range(12):
+            self.chirp_traj[:, i] = self.default_angles[i] + chirp_signal * scales[i] * directions[i]
+        self.num_chirp_steps = num_steps
+    
+    def chrip_proccess(self):
+        # Reset to default pos
+        for i in range(12):
+            self.low_cmd.motor_cmd[i].q = self.default_angles[i]
+            self.low_cmd.motor_cmd[i].kp = 40 
+            self.low_cmd.motor_cmd[i].dq = 0.0
+            self.low_cmd.motor_cmd[i].kd = 3.0
+            self.low_cmd.motor_cmd[i].tau = 0.0
+        
+        if self.chirp_counter < self.num_chirp_steps:
+            target_q = self.chirp_traj[chirp_counter]
+                
+            for i in range(NUM_MOTORS):
+                self.low_cmd.motor_cmd[i].q = target_q[i]
+                self.low_cmd.motor_cmd[i].kp = self.kps[i] 
+                self.low_cmd.motor_cmd[i].dq = 0.0
+                self.low_cmd.motor_cmd[i].kd = self.kds[i]
+                self.low_cmd.motor_cmd[i].tau = 0.0
+
+            # Data Collection (Only during Chirp)
+            if self.low_state is not None:
+                current_q = np.array([self.low_state.motor_state[i].q for i in range(12)])
+                # 記錄相對於 Chirp 開始的時間，方便對齊
+                self.log_time.append(chirp_counter * self.dt) 
+                self.log_dof_pos.append(current_q)
+                self.log_des_dof_pos.append(target_q.copy())
+
+            chirp_counter += 1
+            if chirp_counter % 500 == 0:
+                print(f"Chirp Progress: {chirp_counter}/{self.num_chirp_steps}")
+        else:
+            print("Chirp finished.")
+            self.sit_down()
+            
+    
+    def save_data(self):
+        if len(self.log_time) == 0:
+            return
+
+        print("Saving data...")
+        time_tensor = torch.tensor(self.log_time, dtype=torch.float32)
+        dof_pos_tensor = torch.tensor(np.array(self.log_dof_pos), dtype=torch.float32)
+        des_dof_pos_tensor = torch.tensor(np.array(self.log_des_dof_pos), dtype=torch.float32)
+
+        save_dict = {
+            "time": time_tensor,
+            "dof_pos": dof_pos_tensor,
+            "des_dof_pos": des_dof_pos_tensor
+        }
+
+        output_dir = pathlib.Path("data/go2")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        file_path = output_dir / "chirp_data.pt"
+        
+        torch.save(save_dict, file_path)
+        print(f"Saved to {file_path}")
 
     def stand_up(self):
         self.mode = 'stand'
@@ -248,6 +335,10 @@ class Controller:
     
     def move_rl(self):
         self.mode = 'move'
+        self.reset_timer()
+    
+    def trigger_chirp(self):
+        self.mode = 'chirp'
         self.reset_timer()
     
     
@@ -279,6 +370,8 @@ class Controller:
                 self.sit()
             elif self.mode == 'move':
                 self.move()
+            elif self.mode == 'chirp':
+                self.chrip_proccess()
             self.low_cmd.crc = self.crc.Crc(self.low_cmd)
             self.lowcmd_publisher.Write(self.low_cmd)
 
@@ -312,6 +405,7 @@ class Controller:
         
     def ResetParam(self):
         self.controller_rt = 0
+        self.chirp_counter = 0
         self.is_running = False
 
 
@@ -333,6 +427,8 @@ if __name__ == '__main__':
         "sit": controller.sit_down,
         "move": controller.move_rl,
         "plot": controller.plot,
+        "save": controller.save_data,
+        "chrip": controller.trigger_chirp,
     }
 
     while True:        
