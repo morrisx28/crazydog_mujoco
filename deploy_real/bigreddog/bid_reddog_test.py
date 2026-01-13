@@ -262,7 +262,7 @@ class Controller:
 
         self.chirp_traj = np.zeros((num_steps, 12), dtype=np.float32)
         scales = np.array([0.25, 0.5, 0.75] * 4) * self.chirp_amplitude 
-        directions = np.array([1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0])
+        directions = np.array([-1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0])
 
         for i in range(12):
             self.chirp_traj[:, i] = self.default_angles[i] + chirp_signal * scales[i] * directions[i]
@@ -278,7 +278,7 @@ class Controller:
             self.low_cmd.motor_cmd[i].tau = 0.0
         
         if self.chirp_counter < self.num_chirp_steps:
-            target_q = self.chirp_traj[chirp_counter]
+            target_q = self.chirp_traj[self.chirp_counter]
                 
             for i in range(NUM_MOTORS):
                 self.low_cmd.motor_cmd[i].q = target_q[i]
@@ -291,13 +291,13 @@ class Controller:
             if self.low_state is not None:
                 current_q = np.array([self.low_state.motor_state[i].q for i in range(12)])
                 # 記錄相對於 Chirp 開始的時間，方便對齊
-                self.log_time.append(chirp_counter * self.dt) 
+                self.log_time.append(self.chirp_counter * self.dt) 
                 self.log_dof_pos.append(current_q)
                 self.log_des_dof_pos.append(target_q.copy())
 
-            chirp_counter += 1
-            if chirp_counter % 500 == 0:
-                print(f"Chirp Progress: {chirp_counter}/{self.num_chirp_steps}")
+            self.chirp_counter += 1
+            if self.chirp_counter % 500 == 0:
+                print(f"Chirp Progress: {self.chirp_counter}/{self.num_chirp_steps}")
         else:
             print("Chirp finished.")
             self.sit_down()
@@ -318,7 +318,7 @@ class Controller:
             "des_dof_pos": des_dof_pos_tensor
         }
 
-        output_dir = pathlib.Path("data/go2")
+        output_dir = pathlib.Path("data/big_red_dog")
         output_dir.mkdir(parents=True, exist_ok=True)
         file_path = output_dir / "chirp_data.pt"
         
@@ -428,7 +428,7 @@ if __name__ == '__main__':
         "move": controller.move_rl,
         "plot": controller.plot,
         "save": controller.save_data,
-        "chrip": controller.trigger_chirp,
+        "chirp": controller.trigger_chirp,
     }
 
     while True:        
